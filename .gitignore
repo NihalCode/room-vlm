@@ -1,0 +1,74 @@
+# Secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+id_rsa
+id_rsa.*
+credentials.json
+hf_token
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg
+
+# NYU / local datasets (keep only .gitkeep)
+data/raw/**
+!data/raw/.gitkeep
+data/extracted/**
+!data/extracted/.gitkeep
+data/processed/**
+!data/processed/.gitkeep
+data/metadata/**
+!data/metadata/.gitkeep
+
+# Model weights and adapters
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.gguf
+**/adapter/
+**/adapter_model*
+outputs/checkpoints/**
+!outputs/checkpoints/.gitkeep
+models/
+.cache/
+
+# Run artifacts (images, paths, metrics from real runs)
+outputs/**
+!outputs/.gitkeep
+!outputs/**/.gitkeep
+# but still ignore non-gitkeep files under outputs subdirs (covered by outputs/**)
+
+# Temp / uploads
+tmp/
+temp/
+.tmp/
+*.tmp
+
+# Tooling
+wandb/
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Hugging Face / torch caches inside repo
+huggingface/
+transformers_cache/

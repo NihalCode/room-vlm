@@ -1,0 +1,18 @@
+labels:
+  - bedroom
+  - living room
+  - bathroom
+  - kitchen
+
+# Folder-name category -> canonical label
+category_map:
+  bedroom: bedroom
+  bathroom: bathroom
+  kitchen: kitchen
+  living_room: living room
+
+canonical_order:
+  - bedroom
+  - living room
+  - bathroom
+  - kitchen

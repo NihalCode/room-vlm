@@ -1,0 +1,101 @@
+project:
+  seed: 42
+  name: room-vlm
+  run_name: qlora-default
+
+model:
+  name: Qwen/Qwen3-VL-4B-Instruct
+  trust_remote_code: false
+  attn_implementation: null  # set to flash_attention_2 when available
+  max_new_tokens: 8
+
+labels:
+  - bedroom
+  - living room
+  - bathroom
+  - kitchen
+
+dataset:
+  source: nyu_depth_v2
+  raw_root: data/raw
+  extracted_root: data/extracted
+  processed_root: data/processed
+  metadata_root: data/metadata
+  jpeg_quality: 95
+  convert_to_jpeg: true
+
+sampling:
+  strategy: timestamp  # timestamp | every_n_frames
+  interval_seconds: 1.0
+  every_n_frames: 30
+
+split:
+  train: 0.70
+  validation: 0.15
+  test: 0.15
+  stratify: true
+  group_by_scene: true
+  seed: 42
+
+training:
+  epochs: 3
+  learning_rate: 0.0001
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 16
+  warmup_ratio: 0.05
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  bf16: true
+  gradient_checkpointing: true
+  eval_strategy: epoch
+  save_strategy: epoch
+  logging_steps: 10
+  output_dir: outputs
+  train_vision: false
+  train_projector: false
+
+lora:
+  enabled: true
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  bias: none
+  task_type: CAUSAL_LM
+
+quantization:
+  enabled: true
+  bits: 4
+  type: nf4
+  double_quant: true
+  compute_dtype: bfloat16
+
+early_stopping:
+  enabled: true
+  patience: 2
+  metric: macro_f1
+  greater_is_better: true
+
+inference:
+  strategy: candidate_scoring  # candidate_scoring | constrained_generation
+  do_sample: false
+  length_normalize: true
+  abstention_enabled: false
+  abstention_threshold: null
+  video_strategy: frame_aggregation  # frame_aggregation | direct_vlm
+  video_interval_seconds: 1.0
+  max_video_frames: 32
+  aggregation: mean_log_probability  # mean_log_probability | mean_probability | majority_vote
+
+api:
+  max_upload_mb: 50
+  allowed_image_types:
+    - image/jpeg
+    - image/png
+    - image/webp
+    - image/bmp
+  allowed_video_types:
+    - video/mp4
+    - video/quicktime
+    - video/x-msvideo
+    - video/x-matroska
